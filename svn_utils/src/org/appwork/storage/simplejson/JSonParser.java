@@ -453,6 +453,7 @@ public class JSonParser {
         final Number ret;
         final Number ret;
         if (num >= -Float.MAX_VALUE && num <= Float.MAX_VALUE) {
+            main
             final float check = (float) num;
             if (check == num && Float.toString(check).length() >= string.length()) {
                 ret = Float.valueOf(check);
