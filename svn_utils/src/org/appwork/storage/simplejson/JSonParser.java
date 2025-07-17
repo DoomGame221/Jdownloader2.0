@@ -451,9 +451,14 @@ public class JSonParser {
         final double num = Double.parseDouble(string);
         // doesn't throw NumberFormatException when no longer *fit* into double but simply looses precision
         final Number ret;
-        final float check = (float) num;
-        if (check == num && Float.toString(check).length() >= string.length()) {
-            ret = Float.valueOf(check);
+        final Number ret;
+        if (num >= Float.MIN_VALUE && num <= Float.MAX_VALUE) {
+            final float check = (float) num;
+            if (check == num && Float.toString(check).length() >= string.length()) {
+                ret = Float.valueOf(check);
+            } else {
+                ret = Double.valueOf(num);
+            }
         } else {
             ret = Double.valueOf(num);
         }
