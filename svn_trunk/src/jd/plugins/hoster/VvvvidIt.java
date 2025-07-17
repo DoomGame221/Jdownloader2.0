@@ -108,7 +108,11 @@ public class VvvvidIt extends PluginForHost {
                 throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
             }
             String finallink = null;
-            final DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            final DocumentBuilder parser = factory.newDocumentBuilder();
             final XPath xPath = XPathFactory.newInstance().newXPath();
             Document d = parser.parse(new ByteArrayInputStream(br.toString().getBytes("UTF-8")));
             NodeList mediaUrls = (NodeList) xPath.evaluate("/manifest/media", d, XPathConstants.NODESET);
