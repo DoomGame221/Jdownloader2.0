@@ -1,0 +1,33 @@
+# .github/dependabot.yml
+version: 2
+updates:
+  # 1. Maven dependency updates
+  - package-ecosystem: "maven"
+    directory: "/"                  # Location of pom.xml
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    rebase-strategy: "auto"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    ignore:
+      - dependency-name: "org.projectlombok:lombok"
+        # lombok updates often break builds or require manual review
+        update-types: ["version-update:semver-major"]
+    labels:
+      - "dependencies"
+      - "java"
+      - "automated"
+
+  # 2. GitHub Actions version updates
+  - package-ecosystem: "github-actions"
+    directory: "/"                 # Root of the repo
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "ci"
+      - "dependencies"
