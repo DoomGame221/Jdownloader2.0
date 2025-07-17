@@ -452,7 +452,8 @@ public class JSonParser {
         // doesn't throw NumberFormatException when no longer *fit* into double but simply looses precision
         final Number ret;
         final Number ret;
-        if (num >= Float.MIN_VALUE && num <= Float.MAX_VALUE) {
+        if (num >= -Float.MAX_VALUE && num <= Float.MAX_VALUE) {
+            main
             final float check = (float) num;
             if (check == num && Float.toString(check).length() >= string.length()) {
                 ret = Float.valueOf(check);
