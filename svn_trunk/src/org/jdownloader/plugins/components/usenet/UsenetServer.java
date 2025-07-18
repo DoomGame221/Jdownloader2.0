@@ -9,36 +9,56 @@ import org.appwork.utils.StringUtils;
 /**
  * Represents a Usenet server with host, port, and SSL configuration.
  */
-public record UsenetServer(String host, int port, int connections, boolean ssl) implements Storable {
+public class UsenetServer implements Storable {
+    private String  host        = null;
+    private int     port        = -1;
+    private int     connections = -1;
+    private boolean ssl         = false;
 
     public UsenetServer() {
-        this(null, -1, -1, false);
+        // Required for Storable
     }
 
     public UsenetServer(final String host, final int port) {
-        this(host, port, -1, false);
+        this(host, port, false);
     }
 
     public UsenetServer(final String host, final int port, final boolean ssl) {
-        this(host, port, -1, ssl);
+        this.host = host;
+        this.port = port;
+        this.ssl = ssl;
     }
 
     public String getHost() {
         return host;
     }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public int getPort() {
         return port > 0 ? port : (isSSL() ? 563 : 119);
     }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     public boolean isSSL() {
         return ssl;
     }
 
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
 
     public int getConnections() {
         return connections;
+    }
+
+    public void setConnections(int connections) {
+        this.connections = connections;
     }
 
     // Public Methods

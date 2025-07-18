@@ -124,7 +124,7 @@ public class DailyMotionComV2 extends DailyMotionCom {
         return super.requestFileInformation(downloadLink);
     }
 
-    public final class NoAudioException extends PluginException {
+    public class NoAudioException extends PluginException {
         /**
          *
          */

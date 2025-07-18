@@ -7,7 +7,7 @@ import org.appwork.utils.StringUtils;
 import org.appwork.utils.encoding.Base64;
 import org.appwork.utils.formatter.HexFormatter;
 
-public record HashInfo(String hash, TYPE type, boolean trustworthy, boolean forced) {
+public class HashInfo {
     public static enum TYPE {
         // order is important! see isStrongerThan/isWeakerThan
         SHA512("SHA-512", 128),
@@ -57,6 +57,8 @@ public record HashInfo(String hash, TYPE type, boolean trustworthy, boolean forc
         }
     }
 
+    private final String hash;
+
     public String getHash() {
         return hash;
     }
@@ -68,6 +70,10 @@ public record HashInfo(String hash, TYPE type, boolean trustworthy, boolean forc
     public boolean isNone() {
         return TYPE.NONE.equals(type);
     }
+
+    private final TYPE    type;
+    private final boolean trustworthy;
+    private final boolean forced;
 
     public boolean isTrustworthy() {
         return trustworthy;
@@ -146,13 +152,14 @@ public record HashInfo(String hash, TYPE type, boolean trustworthy, boolean forc
         return null;
     }
 
-    public HashInfo {
+    public HashInfo(final String hash, TYPE type, boolean trustworthy, boolean forced) {
         if (type == null) {
             throw new IllegalArgumentException("type is missing");
+        } else {
+            this.type = type;
         }
-        String calculatedHash;
         if (TYPE.NONE.equals(type)) {
-            calculatedHash = "";
+            this.hash = "";
         } else {
             final String hexHash;
             if (StringUtils.isEmpty(hash)) {
@@ -171,15 +178,13 @@ public record HashInfo(String hash, TYPE type, boolean trustworthy, boolean forc
             if (StringUtils.isEmpty(hexHash)) {
                 throw new IllegalArgumentException("hash is empty:" + type + "-" + hash);
             } else if (hexHash.length() < type.getSize()) {
-                calculatedHash = String.format("%0" + (type.getSize() - hexHash.length()) + "d%s", 0, hexHash);
+                this.hash = String.format("%0" + (type.getSize() - hexHash.length()) + "d%s", 0, hexHash);
             } else if (hexHash.length() > type.getSize()) {
                 throw new IllegalArgumentException("invalid hash size:" + type + "-" + hash);
             } else {
-                calculatedHash = hexHash.toLowerCase(Locale.ENGLISH);
+                this.hash = hexHash.toLowerCase(Locale.ENGLISH);
             }
         }
-        this.hash = calculatedHash;
-        this.type = type;
         this.trustworthy = trustworthy;
         this.forced = forced;
     }

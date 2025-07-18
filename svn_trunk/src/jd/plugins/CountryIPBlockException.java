@@ -4,7 +4,7 @@ import jd.controlling.downloadcontroller.DownloadLinkCandidate;
 import jd.controlling.downloadcontroller.DownloadLinkCandidateResult;
 import jd.controlling.downloadcontroller.DownloadLinkCandidateResult.RESULT;
 
-public final class CountryIPBlockException extends PluginException implements CandidateResultProvider {
+public class CountryIPBlockException extends PluginException implements CandidateResultProvider {
     private String message;
 
     public CountryIPBlockException(String msg) {
